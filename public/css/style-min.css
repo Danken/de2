@@ -1,0 +1,25 @@
+html,
+body {
+    margin: 0;
+    overflow: hidden;
+    height: 100%;
+}
+
+/* Scale canvas with resize attribute to full size */
+canvas[resize] {
+    width: 100%;
+    height: 100%;
+}
+
+#title, #title > span {
+    font-size: 11px;
+    position: absolute;
+    width: 20px;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+#title {
+    top: 0;
+    left: 0;
+}

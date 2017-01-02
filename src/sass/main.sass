@@ -1,0 +1,28 @@
+@import "_bourbon.scss"
+
+html,
+body
+    margin: 0
+    overflow: hidden
+    height: 100%
+
+/* Scale canvas with resize attribute to full size */
+canvas[resize]
+    width: 100%
+    height: 100%
+
+.clocktext > span
+    font-size: 12px
+    line-height: 12px
+    position: absolute
+    display: inline-block
+    width: 20px
+    text-align: center
+    text-transform: uppercase
+    margin-left: -5px
+    margin-top: -3px
+    background-color: yellow
+
+.clocktext
+    top: 0
+    left: 0
