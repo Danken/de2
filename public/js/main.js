@@ -56,7 +56,7 @@ $(document).ready(function() {
         path_min.fullySelected = true;
         path_hour.fullySelected = true;
         clock_face.fullySelected = true;
-        // Give the stroke a color
+
 
         var start = new paper.Point(paper.view.center);
         // Move to start and draw a line from there
@@ -75,9 +75,12 @@ $(document).ready(function() {
             var current_time = new Date();
 
             // Reset paths and rotate. Then reposition characters.
-
+            path_sec.segments[0].point = paper.view.center;
+            path_min.segments[0].point = paper.view.center;
+            path_hour.segments[0].point = paper.view.center;
+            clock_face.position = paper.view.center;
             // Seconds
-            var current_second = current_time.getSeconds() + 1
+            var current_second = current_time.getSeconds()
             var current_second_angle = current_second / 60 * 360;
             path_sec.segments[1].point.x = paper.view.center.x;
             path_sec.segments[1].point.y = -300;
@@ -85,7 +88,7 @@ $(document).ready(function() {
             var char_amount = $('#second span').length + 1
             for (var i = 0; i < char_amount; i++) {
                 // Reverse the order of the characters if on left side of clock face
-                if (current_second > 30) {
+                if (current_second > 31) {
                     var order = ((char_amount) - i);
                 } else {
                     var order = i
@@ -95,7 +98,7 @@ $(document).ready(function() {
             }
 
             // Minutes
-            var current_minute = current_time.getMinutes() + 1
+            var current_minute = current_time.getMinutes()
             var current_minute_angle = current_minute / 60 * 360;
             path_min.segments[1].point.x = paper.view.center.x;
             path_min.segments[1].point.y = -300;
@@ -103,12 +106,12 @@ $(document).ready(function() {
             var char_amount = $('#minute span').length + 1
             for (var i = 0; i < char_amount; i++) {
                 // Reverse the order of the characters if on left side of clock face
-                if (current_minute > 30) {
+                if (current_minute > 31) {
                     var order = ((char_amount) - i);
                 } else {
                     var order = i
                 }
-                var point1 = path_min.getPointAt(i * 15);
+                var point1 = path_min.getPointAt(i * 25);
                 $('#minute>span:nth-child(' + order + ')').css('top', point1.y + 'px').css('left', point1.x + 'px');
             }
 
@@ -126,7 +129,7 @@ $(document).ready(function() {
                 } else {
                     var order = i
                 }
-                var point1 = path_hour.getPointAt(i * 15);
+                var point1 = path_hour.getPointAt(i * 25);
                 $('#hour>span:nth-child(' + order + ')').css('top', point1.y + 'px').css('left', point1.x + 'px');
             }
 
@@ -137,13 +140,11 @@ $(document).ready(function() {
         }
 
         update();
+
     }
 
 
     clock();
 
-    $(window).resize(function() {
-        path_sec.segments[0].point = paper.view.center;
-        //paper.view.draw();
-    });
+
 });
