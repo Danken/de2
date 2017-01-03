@@ -75,7 +75,7 @@ function clock() {
         var char_amount = $('#second span').length + 1
         for (var i = 0; i < char_amount; i++) {
             // Reverse the order of the characters if on left side of clock face
-            if (current_second > 31) {
+            if (current_second > 31 || current_second < 2) {
                 var order = ((char_amount) - i);
             } else {
                 var order = i
@@ -86,7 +86,7 @@ function clock() {
         var char_amount = $('#minute span').length + 1
         for (var i = 0; i < char_amount; i++) {
             // Reverse the order of the characters if on left side of clock face
-            if (current_minute > 31) {
+            if (current_minute > 31 || current_minute < 2) {
                 var order = ((char_amount) - i);
             } else {
                 var order = i
@@ -97,7 +97,7 @@ function clock() {
         var char_amount = $('#hour span').length + 1
         for (var i = 0; i < char_amount; i++) {
             // Reverse the order of the characters if on left side of clock face
-            if (current_hour > 6) {
+            if (current_hour > 6 || current_hour == 0) {
                 var order = ((char_amount) - i);
             } else {
                 var order = i
