@@ -19,10 +19,28 @@ function clock() {
     var canvas = document.getElementById('myCanvas');
     // Create an empty project and a view for the canvas
     paper.setup(canvas);
-    // Create a Paper.js Paths
-    var path_sec = new paper.Path();
-    var path_min = new paper.Path();
-    var path_hour = new paper.Path();
+    // Setup objects for the clock
+    var stems = {
+        sec: {
+            path: new paper.Path(),
+            division: 60,
+            id: "second"
+        },
+        min: {
+            path: new paper.Path(),
+            division: 60,
+            id: "minute"
+        },
+        hour: {
+            path: new paper.Path(),
+            division: 12,
+            id: "hour"
+        },
+    };
+
+    var center = new paper.Point(paper.view.center);
+
+    //Helper path for visual debugging
     var clock_face = new paper.Path.Circle(paper.view.center, 300)
 
     //For each stem
@@ -53,9 +71,16 @@ function clock() {
         //For each stem
         $.each(stems, function(key, value) {
             var path = value.path
+            // Reset paths
             path.segments[0].point = paper.view.center;
             path.segments[1].point.x = paper.view.center.x;
             path.segments[1].point.y = -300;
+        });
+
+        // Rotate stems
+        stems.sec.path.rotate(current_second_angle, paper.view.center);
+        stems.min.path.rotate(current_minute_angle, paper.view.center);
+        stems.hour.path.rotate(current_hour_angle, paper.view.center);
 
         // Position characters
         var char_amount = $('#second span').length + 1
@@ -66,6 +91,7 @@ function clock() {
             } else {
                 var order = i
             }
+            var point1 = stems.sec.path.getPointAt(i * 15);
             $('#second>span:nth-child(' + order + ')').css('top', point1.y + 'px').css('left', point1.x + 'px');
         }
         var char_amount = $('#minute span').length + 1
@@ -76,6 +102,7 @@ function clock() {
             } else {
                 var order = i
             }
+            var point1 = stems.min.path.getPointAt(i * 25);
             $('#minute>span:nth-child(' + order + ')').css('top', point1.y + 'px').css('left', point1.x + 'px');
         }
         var char_amount = $('#hour span').length + 1
@@ -86,8 +113,11 @@ function clock() {
             } else {
                 var order = i
             }
+            var point1 = stems.hour.path.getPointAt(i * 25);
             $('#hour>span:nth-child(' + order + ')').css('top', point1.y + 'px').css('left', point1.x + 'px');
         }
+
+        clock_face.position = paper.view.center;
 
         // Update each second
         setTimeout(function() {
