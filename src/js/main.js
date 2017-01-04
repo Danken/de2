@@ -25,37 +25,21 @@ function clock() {
     var path_hour = new paper.Path();
     var clock_face = new paper.Path.Circle(paper.view.center, 300)
 
-    path_sec.fullySelected = true;
-    path_min.fullySelected = true;
-    path_hour.fullySelected = true;
-    clock_face.fullySelected = true;
+    //For each stem
+    $.each(stems, function(key, value) {
+        var path = value.path
+            // Make paths visible for debugging purposes
+        path.fullySelected = true;
 
-    var center = new paper.Point(paper.view.center);
-    // Move to start and draw a line from there
-    path_sec.moveTo(center);
-    path_min.moveTo(center);
-    path_hour.moveTo(center);
-    // Note that the plus operator on Point objects does not work
-    // in JavaScript. Instead, we need to call the add() function:
-    path_sec.lineTo(center.add([600, 0]));
-    path_min.lineTo(center.add([600, 0]));
-    path_hour.lineTo(center.add([600, 0]));
+        // Move to start and draw a line from there
+        path.moveTo(center);
+        path.lineTo(center.add([600, 0]));
+    });
+
     // Draw the view now:
     paper.view.draw();
 
     function update() {
-
-        // Reset paths
-        path_sec.segments[0].point = paper.view.center;
-        path_sec.segments[1].point.x = paper.view.center.x;
-        path_sec.segments[1].point.y = -300;
-        path_min.segments[0].point = paper.view.center;
-        path_min.segments[1].point.x = paper.view.center.x;
-        path_min.segments[1].point.y = -300;
-        path_hour.segments[0].point = paper.view.center;
-        path_hour.segments[1].point.x = paper.view.center.x;
-        path_hour.segments[1].point.y = -300;
-        clock_face.position = paper.view.center;
 
         // Get time and calculate angles
         var current_time = new Date();
@@ -66,10 +50,12 @@ function clock() {
         var current_hour = current_time.getHours() % 12
         var current_hour_angle = current_hour / 12 * 360;
 
-        // Calculate angles
-        path_sec.rotate(current_second_angle, paper.view.center);
-        path_min.rotate(current_minute_angle, paper.view.center);
-        path_hour.rotate(current_hour_angle, paper.view.center);
+        //For each stem
+        $.each(stems, function(key, value) {
+            var path = value.path
+            path.segments[0].point = paper.view.center;
+            path.segments[1].point.x = paper.view.center.x;
+            path.segments[1].point.y = -300;
 
         // Position characters
         var char_amount = $('#second span').length + 1
@@ -80,7 +66,6 @@ function clock() {
             } else {
                 var order = i
             }
-            var point1 = path_sec.getPointAt(i * 15);
             $('#second>span:nth-child(' + order + ')').css('top', point1.y + 'px').css('left', point1.x + 'px');
         }
         var char_amount = $('#minute span').length + 1
@@ -91,7 +76,6 @@ function clock() {
             } else {
                 var order = i
             }
-            var point1 = path_min.getPointAt(i * 25);
             $('#minute>span:nth-child(' + order + ')').css('top', point1.y + 'px').css('left', point1.x + 'px');
         }
         var char_amount = $('#hour span').length + 1
@@ -102,7 +86,6 @@ function clock() {
             } else {
                 var order = i
             }
-            var point1 = path_hour.getPointAt(i * 25);
             $('#hour>span:nth-child(' + order + ')').css('top', point1.y + 'px').css('left', point1.x + 'px');
         }
 
