@@ -46,13 +46,14 @@ function clock() {
     //For each stem
     $.each(stems, function(key, value) {
         var path = value.path
-            // Make paths visible for debugging purposes
+        // Make paths visible for debugging purposes
         path.fullySelected = true;
-
         // Move to start and draw a line from there
         path.moveTo(center);
         path.lineTo(center.add([600, 0]));
     });
+    clock_face.fullySelected = true;
+    
 
     // Draw the view now:
     paper.view.draw();
