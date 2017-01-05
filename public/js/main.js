@@ -15,10 +15,15 @@ lineText = function(element) {
 }
 
 function clock() {
+    function init() {
+
+    }
+
     // Get a reference to the canvas object
     var canvas = document.getElementById('myCanvas');
     // Create an empty project and a view for the canvas
     paper.setup(canvas);
+
     // Setup objects for the clock
     var stems = {
         sec: {
@@ -53,10 +58,22 @@ function clock() {
         path.lineTo(center.add([600, 0]));
     });
     clock_face.fullySelected = true;
-    
 
-    // Draw the view now:
-    paper.view.draw();
+
+
+    paper.view.autoUpdate = false;
+
+    // Get shortest size of the views width/height
+    var view_shortest = Math.min(paper.view.viewSize.height, paper.view.viewSize.width);
+
+
+    // Make characters on stems responsive to fit in view
+    var char_amount_sec = $('#second span').length + 1;
+    var char_spacing_sec = (view_shortest/2) / char_amount_sec;
+    $('.clocktext span').css('font-size', 'inherit');
+    $('.clocktext').css('font-size', char_spacing_sec + 'px');
+
+    console.log(char_spacing_sec);
 
     function update() {
 
@@ -95,23 +112,26 @@ function clock() {
             path.segments[1].point.x = paper.view.center.x;
             path.segments[1].point.y = -300;
 
+
             // For each stem:
             switch (key) {
                 case "sec":
                     path.rotate(current_second_angle, paper.view.center);
-                    positionCharacters(stems.sec, stems.sec.id, 30, 1, 15, stem_value)
+                    positionCharacters(stems.sec, stems.sec.id, 30, 1, char_spacing_sec, stem_value)
                     break;
                 case "min":
                     path.rotate(current_minute_angle, paper.view.center);
-                    positionCharacters(stems.min, stems.min.id, 30, 1, 25, stem_value)
+                    positionCharacters(stems.min, stems.min.id, 30, 1, char_spacing_sec, stem_value)
                     break;
                 case "hour":
                     path.rotate(current_hour_angle, paper.view.center);
-                    positionCharacters(stems.hour, stems.hour.id, 6, 0, 25, stem_value)
+                    positionCharacters(stems.hour, stems.hour.id, 6, 0, char_spacing_sec, stem_value)
                     break;
                 default:
                     break;
             }
+
+            paper.view.update();
         });
 
         function positionCharacters(stem, id, reverse1, reverse2, spacing, stem_value) {
@@ -124,9 +144,14 @@ function clock() {
                     var order = i
                 }
                 var point1 = stem.path.getPointAt(i * spacing);
-                $('#' + id + '>span:nth-child(' + order + ')').css('top', point1.y + 'px').css('left', point1.x + 'px');
+                $('#' + id + '>span:nth-child(' + order + ')')
+                    .css('top', point1.y + 'px')
+                    .css('left', point1.x + 'px');
             }
+            console.log(char_spacing_sec);
         }
+
+
 
         clock_face.position = paper.view.center;
 
