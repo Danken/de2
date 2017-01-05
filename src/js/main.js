@@ -85,8 +85,6 @@ function clock() {
 
             var stem_value = getStemValue();
 
-            console.log(stem_value);
-
             var current_second_angle = stem_value / 60 * 360;
             var current_minute_angle = stem_value / 60 * 360;
             var current_hour_angle = stem_value / 12 * 360;
