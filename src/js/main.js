@@ -74,7 +74,7 @@ function clock() {
                         var time = current_time.getMinutes()
                         break;
                     case "hour":
-                        var time = current_time.getHours()
+                        var time = current_time.getHours() % 12
                         break;
                     default:
                         break;
@@ -98,11 +98,11 @@ function clock() {
             switch (key) {
                 case "sec":
                     path.rotate(current_second_angle, paper.view.center);
-                    positionCharacters(stems.sec, stems.sec.id, 31, 2, 15, stem_value)
+                    positionCharacters(stems.sec, stems.sec.id, 30, 1, 15, stem_value)
                     break;
                 case "min":
                     path.rotate(current_minute_angle, paper.view.center);
-                    positionCharacters(stems.min, stems.min.id, 31, 2, 25, stem_value)
+                    positionCharacters(stems.min, stems.min.id, 30, 1, 25, stem_value)
                     break;
                 case "hour":
                     path.rotate(current_hour_angle, paper.view.center);
@@ -147,4 +147,8 @@ $(document).ready(function() {
 
     clock();
 
+});
+
+$(window).resize(function() {
+    clock();
 });
