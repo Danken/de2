@@ -29,28 +29,23 @@ function clock() {
         var clock_face = new paper.Path.Circle(paper.view.center, 300)
     }
 
-    lineText = function(element) {
-
-        function spanTheText() {
-            var content;
-            var spanned_content = "";
-            content = element.html();
-            content = content.split("");
-            for (var i = 0; i < content.length; i++) {
-                spanned_content = spanned_content + "<span>" + content[i] + "</span>";
-            }
-            element.html(spanned_content);
+    function spanTheText(element) {
+        var content;
+        var spanned_content = "";
+        content = element.html();
+        content = content.split("");
+        for (var i = 0; i < content.length; i++) {
+            spanned_content = spanned_content + "<span>" + content[i] + "</span>";
         }
-
-        spanTheText()
+        element.html(spanned_content);
     }
 
     function init() {
 
         //Prepare htmltext for individual positioning
-        lineText($('#second'));
-        lineText($('#minute'));
-        lineText($('#hour'));
+        spanTheText($('#second'));
+        spanTheText($('#minute'));
+        spanTheText($('#hour'));
 
         //For each stem
         $.each(stems, function(key, value) {
