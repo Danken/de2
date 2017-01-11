@@ -1,19 +1,3 @@
-lineText = function(element) {
-
-    function spanTheText() {
-        var content;
-        var spanned_content = "";
-        content = element.html();
-        content = content.split("");
-        for (var i = 0; i < content.length; i++) {
-            spanned_content = spanned_content + "<span>" + content[i] + "</span>";
-        }
-        element.html(spanned_content);
-    }
-
-    spanTheText()
-}
-
 function clock() {
     var canvas = document.getElementById('myCanvas');
     paper.setup(canvas);
@@ -45,7 +29,29 @@ function clock() {
         var clock_face = new paper.Path.Circle(paper.view.center, 300)
     }
 
+    lineText = function(element) {
+
+        function spanTheText() {
+            var content;
+            var spanned_content = "";
+            content = element.html();
+            content = content.split("");
+            for (var i = 0; i < content.length; i++) {
+                spanned_content = spanned_content + "<span>" + content[i] + "</span>";
+            }
+            element.html(spanned_content);
+        }
+
+        spanTheText()
+    }
+
     function init() {
+
+        //Prepare htmltext for individual positioning
+        lineText($('#second'));
+        lineText($('#minute'));
+        lineText($('#hour'));
+
         //For each stem
         $.each(stems, function(key, value) {
             var path = value.path
@@ -74,7 +80,7 @@ function clock() {
         //For each stem
         $.each(stems, function(key, value) {
             var path = value.path
-            //Get time
+                //Get time
             function getStemValue() {
                 switch (key) {
                     case "sec":
@@ -141,9 +147,9 @@ function clock() {
             }
         }
 
-if (visual_debug) {
-    clock_face.position = paper.view.center;
-}
+        if (visual_debug) {
+            clock_face.position = paper.view.center;
+        }
 
         // Update each second
         setTimeout(function() {
@@ -161,10 +167,6 @@ if (visual_debug) {
 }
 
 $(document).ready(function() {
-
-    lineText($('#second'));
-    lineText($('#minute'));
-    lineText($('#hour'));
 
     var the_clock = clock();
     the_clock.init();
