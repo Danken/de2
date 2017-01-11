@@ -37,20 +37,28 @@ function clock() {
     };
     var center = new paper.Point(paper.view.center);
     var view_shortest;
-    //Helper path for visual debugging
-    var clock_face = new paper.Path.Circle(paper.view.center, 300)
+
+    // For visual debugging make this true
+    var visual_debug = true;
+
+    if (visual_debug) {
+        var clock_face = new paper.Path.Circle(paper.view.center, 300)
+    }
 
     function init() {
         //For each stem
         $.each(stems, function(key, value) {
             var path = value.path
-                // Make paths visible for debugging purposes
-            path.fullySelected = true;
+            if (visual_debug) {
+                path.fullySelected = true;
+            }
             // Move to start and draw a line from there
             path.moveTo(center);
             path.lineTo(center.add([600, 0]));
         });
-        clock_face.fullySelected = true;
+        if (visual_debug) {
+            clock_face.fullySelected = true;
+        }
         paper.view.autoUpdate = false;
     }
 
@@ -112,7 +120,9 @@ function clock() {
                 default:
                     break;
             }
-            paper.view.update();
+            if (visual_debug) {
+                paper.view.update();
+            }
         });
 
         function positionCharacters(stem, id, reverse1, reverse2, spacing, stem_value) {
@@ -131,7 +141,9 @@ function clock() {
             }
         }
 
-        clock_face.position = paper.view.center;
+if (visual_debug) {
+    clock_face.position = paper.view.center;
+}
 
         // Update each second
         setTimeout(function() {
