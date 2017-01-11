@@ -15,15 +15,8 @@ lineText = function(element) {
 }
 
 function clock() {
-    function init() {
-
-    }
-
-    // Get a reference to the canvas object
     var canvas = document.getElementById('myCanvas');
-    // Create an empty project and a view for the canvas
     paper.setup(canvas);
-
     // Setup objects for the clock
     var stems = {
         sec: {
@@ -42,40 +35,42 @@ function clock() {
             id: "hour"
         },
     };
-
     var center = new paper.Point(paper.view.center);
-
+    var view_shortest;
     //Helper path for visual debugging
     var clock_face = new paper.Path.Circle(paper.view.center, 300)
 
-    //For each stem
-    $.each(stems, function(key, value) {
-        var path = value.path
-        // Make paths visible for debugging purposes
-        path.fullySelected = true;
-        // Move to start and draw a line from there
-        path.moveTo(center);
-        path.lineTo(center.add([600, 0]));
-    });
-    clock_face.fullySelected = true;
+    function init() {
+        //For each stem
+        $.each(stems, function(key, value) {
+            var path = value.path
+                // Make paths visible for debugging purposes
+            path.fullySelected = true;
+            // Move to start and draw a line from there
+            path.moveTo(center);
+            path.lineTo(center.add([600, 0]));
+        });
+        clock_face.fullySelected = true;
 
 
 
-    paper.view.autoUpdate = false;
-
-    // Get shortest size of the views width/height
-    var view_shortest = Math.min(paper.view.viewSize.height, paper.view.viewSize.width);
+        paper.view.autoUpdate = false;
 
 
-    // Make characters on stems responsive to fit in view
-    var char_amount_sec = $('#second span').length + 1;
-    var char_spacing_sec = (view_shortest/2) / char_amount_sec;
-    $('.clocktext span').css('font-size', 'inherit');
-    $('.clocktext').css('font-size', char_spacing_sec + 'px');
 
-    console.log(char_spacing_sec);
+
+        //console.log(char_spacing_sec);
+
+    }
+
 
     function update() {
+        view_shortest = Math.min(paper.view.viewSize.height, paper.view.viewSize.width);
+        // Make characters on stems responsive to fit in view
+        var char_amount_sec = $('#second span').length + 1;
+        var char_spacing_sec = (view_shortest / 2) / char_amount_sec;
+        $('.clocktext span').css('font-size', 'inherit');
+        $('.clocktext').css('font-size', char_spacing_sec + 'px');
 
         var current_time = new Date();
         //For each stem
@@ -148,7 +143,6 @@ function clock() {
                     .css('top', point1.y + 'px')
                     .css('left', point1.x + 'px');
             }
-            console.log(char_spacing_sec);
         }
 
 
@@ -161,9 +155,19 @@ function clock() {
         }, 1000);
     }
 
-    update();
+    //update();
+
+    var public_api = {
+        init: init,
+        update: update
+    }
+
+    return public_api;
 
 }
+
+
+
 
 $(document).ready(function() {
 
@@ -171,10 +175,12 @@ $(document).ready(function() {
     lineText($('#minute'));
     lineText($('#hour'));
 
-    clock();
+    var the_clock = clock();
+    the_clock.init();
+    the_clock.update();
 
-});
+    $(window).resize(function() {
+        the_clock.update();
+    });
 
-$(window).resize(function() {
-    clock();
 });
