@@ -51,18 +51,8 @@ function clock() {
             path.lineTo(center.add([600, 0]));
         });
         clock_face.fullySelected = true;
-
-
-
         paper.view.autoUpdate = false;
-
-
-
-
-        //console.log(char_spacing_sec);
-
     }
-
 
     function update() {
         view_shortest = Math.min(paper.view.viewSize.height, paper.view.viewSize.width);
@@ -76,7 +66,6 @@ function clock() {
         //For each stem
         $.each(stems, function(key, value) {
             var path = value.path
-
             //Get time
             function getStemValue() {
                 switch (key) {
@@ -92,7 +81,6 @@ function clock() {
                     default:
                         break;
                 }
-
                 return time
             }
 
@@ -106,7 +94,6 @@ function clock() {
             path.segments[0].point = paper.view.center;
             path.segments[1].point.x = paper.view.center.x;
             path.segments[1].point.y = -300;
-
 
             // For each stem:
             switch (key) {
@@ -125,7 +112,6 @@ function clock() {
                 default:
                     break;
             }
-
             paper.view.update();
         });
 
@@ -145,8 +131,6 @@ function clock() {
             }
         }
 
-
-
         clock_face.position = paper.view.center;
 
         // Update each second
@@ -154,8 +138,6 @@ function clock() {
             update();
         }, 1000);
     }
-
-    //update();
 
     var public_api = {
         init: init,
@@ -165,9 +147,6 @@ function clock() {
     return public_api;
 
 }
-
-
-
 
 $(document).ready(function() {
 
