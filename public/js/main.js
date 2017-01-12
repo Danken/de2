@@ -68,8 +68,9 @@ function clock() {
         // Make characters on stems responsive to fit in view
         var char_amount_sec = $('#second span').length + 1;
         var char_spacing_sec = (view_shortest / 2) / char_amount_sec;
+        var char_relative_size = 2;
         $('.clocktext span').css('font-size', 'inherit');
-        $('.clocktext').css('font-size', char_spacing_sec + 'px');
+        $('.clocktext').css('font-size', (char_spacing_sec / 2) + 'px');
 
         var current_time = new Date();
         //For each stem
