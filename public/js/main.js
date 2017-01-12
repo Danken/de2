@@ -23,7 +23,7 @@ function clock() {
     var view_shortest;
 
     // For visual debugging make this true
-    var visual_debug = true;
+    var visual_debug = false;
 
     if (visual_debug) {
         var clock_face = new paper.Path.Circle(paper.view.center, 300)
@@ -146,7 +146,6 @@ function clock() {
             clock_face.position = paper.view.center;
         }
 
-        // Update each second
         setTimeout(function() {
             update();
         }, 1000);
